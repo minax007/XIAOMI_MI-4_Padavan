@@ -178,13 +178,13 @@ jobs:
           for m in $targets; do fakeroot ./build_firmware_ci $m; \
           if [ $? = 0 ]; then cp -f images/*.trx $images_dir/$m.trx; else exit 1; fi; \
           ./clear_tree_simple >/dev/null 2>&1; done
-      - name: Upload R2100
-        id: upload-release-asset-R2100
+      - name: Upload MI-4
+        id: upload-release-asset-MI-4
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: /opt/images/R2100.trx
-          asset_name: R2100_${{ env.build_date }}_${{ env.build_version }}.trx
+          asset_name: MI-4_${{ env.build_date }}_${{ env.build_version }}.trx
           asset_content_type: application/bin
