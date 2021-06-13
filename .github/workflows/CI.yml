@@ -157,26 +157,28 @@ jobs:
           for n in $DISABLED_CFG; do sed -i "/${n}/c${n}=n" $m.config; done; \
           fi; done
                     
-      - name: Start build
-        run: |
-          cd $build_dir/trunk
-          for m in $targets; do fakeroot ./build_firmware_ci $m; \
-          if [ $? = 0 ]; then cp -f images/*.trx $images_dir/$m.trx; else exit 1; fi; \
-          ./clear_tree_simple >/dev/null 2>&1; done
-
+      # Create Release was put before "Start Build" to avoid building already existing build      
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.build_date }}
+          tag_name: ${{ env.build_version }}
           release_name: Padavan (${{ env.build_version }})
           body: |
             Build Date: ${{ env.build_date }} 
             Build Version: ${{ env.build_version }} 
+
           draft: false
           prerelease: false
+          
+      - name: Start build
+        run: |
+          cd $build_dir/trunk
+          for m in $targets; do fakeroot ./build_firmware_ci $m; \
+          if [ $? = 0 ]; then cp -f images/*.trx $images_dir/$m.trx; else exit 1; fi; \
+          ./clear_tree_simple >/dev/null 2>&1; done
 
       - name: Upload MI-4
         id: upload-release-asset-MI-4
