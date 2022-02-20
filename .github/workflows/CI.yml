@@ -149,11 +149,6 @@ jobs:
         run: |
           cd $build_dir/toolchain-mipsel
           sh dl_toolchain.sh
-  
-      - name: Copy build_firmware_modify to build directory for making the build as lean as possible
-        run: |
-          if [ -d rt-n56u/modify ]; then cp -rf rt-n56u/modify/* $build_dir/trunk/; fi
-
       - name: Modify configs
         run: |
           cd $build_dir/trunk/configs/templates
