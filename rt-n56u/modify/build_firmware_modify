@@ -16,7 +16,7 @@ cp -f configs/templates/$1.config .config
 ROOTDIR=`pwd`
 export ROOTDIR=$ROOTDIR
 
-kernel_id="4.4.x"
+kernel_id="3.4.x"
 kernel_cf=""
 kernel_tf=""
 busybox_id="1.24.x"
